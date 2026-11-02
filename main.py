@@ -6,8 +6,6 @@ player_x= 375
 player_y= 500
 running = True
 while running:
-   Dispaly.fill((0,0,50))
-   pygame.display.update()
    for event in pygame.event.get():
     if event.type == pygame.QUIT:
         running = False
@@ -18,7 +16,7 @@ while running:
    keys = pygame.key.get_pressed()
    if keys[pygame.K_RIGHT]:
       player_x += 1
-   elif keys[pygame.K_LEFT]:
+   if keys[pygame.K_LEFT]: #we use if here instead of elif because we want to check both keys at the same time 
       player_x -= 1
 pygame.quit()
         
