@@ -1,24 +1,30 @@
 import pygame
 pygame.init() # It initialises pygames's modules, so they are ready to use
 WIDTH , HEIGHT = 800, 600
-Dispaly= pygame.display.set_mode((WIDTH, HEIGHT))
+Display= pygame.display.set_mode((WIDTH, HEIGHT))
 player_x= 375
 player_y= 500
+player_speed= 500
 running = True
+clock = pygame.time.Clock()
 while running:
+   dt = clock.tick(60) / 1000
    for event in pygame.event.get():
     if event.type == pygame.QUIT:
         running = False
-      
-   Dispaly.fill((0,0,50))
-   pygame.draw.rect(Dispaly, (0,255,0),(player_x, player_y,50,30))
-   pygame.display.update()
    keys = pygame.key.get_pressed()
-   if keys[pygame.K_RIGHT]:
-      player_x += 1
+   if keys[pygame.K_RIGHT]: #we use if here instead of elif because we want to check both keys at the same time
+      player_x += player_speed * dt
+      player_x = min(player_x, WIDTH-50) #this line makes sure that the player doesn't go out of the screen
    if keys[pygame.K_LEFT]: #we use if here instead of elif because we want to check both keys at the same time 
-      player_x -= 1
+      player_x -= player_speed * dt
+      player_x = max(player_x, 0) #this line makes sure that the player doesn't go out of the screen
+   Display.fill((0,0,50))
+   pygame.draw.rect(Display, (0,255,0),(player_x, player_y,50,30))
+   pygame.display.update() 
 pygame.quit()
+
+
         
 
 
