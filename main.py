@@ -4,6 +4,9 @@ WIDTH , HEIGHT = 800, 600
 Display= pygame.display.set_mode((WIDTH, HEIGHT))
 player_x= 375
 player_y= 500
+enemy_x= 200
+enemy_y= 50
+enemy_speed= 150
 bullet_x= player_x + 25 - 2.5
 bullet_y= player_y - 10
 player_speed= 500
@@ -35,6 +38,17 @@ while running:
    pygame.draw.rect(Display, (0,255,0),(player_x, player_y,50,30))
    if bullet_active:
       pygame.draw.circle(Display, (255,255,0), (bullet_x, bullet_y), 5)
+      pygame.draw.rect(Display, (255,255,0), (bullet_x, bullet_y, 5, 10))
+   pygame.draw.rect(Display, (255,0,0), (enemy_x, enemy_y, 40, 30))
+   enemy_x += enemy_speed * dt # this line makes the enemy move
+   if enemy_x > WIDTH - 50 or enemy_x < 0:
+      enemy_speed *= -1 
+      enemy_y += 20
+   if enemy_y >= HEIGHT - 30: #this line makes sure that the enemy doesn't go out of the screen
+      enemy_y = 50
+      enemy_x = 200
+   enemy_x = max(min(enemy_x, WIDTH - 50), 0) #this line makes sure that the enemy doesn't go out of the screen
+   
    pygame.display.update() 
 pygame.quit()
 
