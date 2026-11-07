@@ -12,6 +12,7 @@ bullet_y= player_y - 10
 player_speed= 500
 bullet_speed= 500
 bullet_active= False #this line makes sure that the player can only shoot one bullet at a time
+enemy_active = True
 running = True
 clock = pygame.time.Clock()
 while running:
@@ -37,10 +38,11 @@ while running:
    Display.fill((0,0,50))
    pygame.draw.rect(Display, (0,255,0),(player_x, player_y,50,30))
    if bullet_active:
-      pygame.draw.circle(Display, (255,255,0), (bullet_x, bullet_y), 5)
       pygame.draw.rect(Display, (255,255,0), (bullet_x, bullet_y, 5, 10))
-   pygame.draw.rect(Display, (255,0,0), (enemy_x, enemy_y, 40, 30))
-   enemy_x += enemy_speed * dt # this line makes the enemy move
+   if enemy_active:
+      pygame.draw.rect(Display, (255,0,0), (enemy_x, enemy_y, 40, 30))
+   if enemy_active:
+      enemy_x += enemy_speed * dt # this line makes the enemy move
    if enemy_x > WIDTH - 50 or enemy_x < 0:
       enemy_speed *= -1 
       enemy_y += 20
@@ -48,7 +50,12 @@ while running:
       enemy_y = 50
       enemy_x = 200
    enemy_x = max(min(enemy_x, WIDTH - 50), 0) #this line makes sure that the enemy doesn't go out of the screen
-   
+   enemy_rect = pygame.Rect(enemy_x, enemy_y, 40, 30)
+   bullet_rect = pygame.Rect(bullet_x, bullet_y, 5, 10)
+   if bullet_active and bullet_rect.colliderect(enemy_rect): 
+      bullet_active =False
+      enemy_active = False
+      bullet_y = player_y - 10
    pygame.display.update() 
 pygame.quit()
 
