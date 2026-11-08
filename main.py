@@ -1,5 +1,6 @@
 import pygame
 pygame.init() # It initialises pygames's modules, so they are ready to use
+score_font = pygame.font.Font(None, 36)      
 WIDTH , HEIGHT = 800, 600
 Display= pygame.display.set_mode((WIDTH, HEIGHT))
 player_x= 375
@@ -11,6 +12,7 @@ bullet_x= player_x + 25 - 2.5
 bullet_y= player_y - 10
 player_speed= 500
 bullet_speed= 500
+score= 0
 bullet_active= False #this line makes sure that the player can only shoot one bullet at a time
 enemy_active = True
 running = True
@@ -43,19 +45,26 @@ while running:
       pygame.draw.rect(Display, (255,0,0), (enemy_x, enemy_y, 40, 30))
    if enemy_active:
       enemy_x += enemy_speed * dt # this line makes the enemy move
-   if enemy_x > WIDTH - 50 or enemy_x < 0:
+   if enemy_x > WIDTH - 40 or enemy_x < 0:
       enemy_speed *= -1 
       enemy_y += 20
    if enemy_y >= HEIGHT - 30: #this line makes sure that the enemy doesn't go out of the screen
       enemy_y = 50
       enemy_x = 200
-   enemy_x = max(min(enemy_x, WIDTH - 50), 0) #this line makes sure that the enemy doesn't go out of the screen
+   enemy_x = max(min(enemy_x, WIDTH - 40), 0) #this line makes sure that the enemy doesn't go out of the screen
    enemy_rect = pygame.Rect(enemy_x, enemy_y, 40, 30)
    bullet_rect = pygame.Rect(bullet_x, bullet_y, 5, 10)
-   if bullet_active and bullet_rect.colliderect(enemy_rect): 
-      bullet_active =False
+   if bullet_active and enemy_active and bullet_rect.colliderect(enemy_rect):
+      bullet_active =False 
       enemy_active = False
+      score += 10
       bullet_y = player_y - 10
+   if not enemy_active:
+      enemy_y = 50
+      enemy_x = 200
+      enemy_active = True
+   score_text = score_font.render("Score: " + str(score), True, (255,255,255))
+   Display.blit(score_text, (10,10))
    pygame.display.update() 
 pygame.quit()
 
