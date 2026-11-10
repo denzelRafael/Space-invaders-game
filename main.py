@@ -1,5 +1,4 @@
 import pygame
-from pygame import display
 pygame.init() # It initialises pygames's modules, so they are ready to use
 score_font = pygame.font.Font(None, 36)
 lives_font = pygame.font.Font(None, 36) 
@@ -11,7 +10,7 @@ player_y= 500
 enemy_x= 200
 enemy_y= 50
 enemy_speed= 150
-lives = 3
+lives = 1
 bullet_x= player_x + 25 - 2.5
 bullet_y= player_y - 10
 player_speed= 500
@@ -68,10 +67,12 @@ while running:
       enemy_active = False
       score += 10
       bullet_y = player_y - 10
+
    if not enemy_active:
       enemy_y = 50
       enemy_x = 200
       enemy_active = True
+      
    score_text = score_font.render("Score: " + str(score), True, (255,255,255))
    lives_text = lives_font.render("Lives: " + str(lives), True, (255,255,255))
    game_over_text = game_over_font.render("GAME OVER", True, (255,0,0))
