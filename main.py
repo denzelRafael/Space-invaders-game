@@ -10,7 +10,7 @@ player_y= 500
 enemy_x= 200
 enemy_y= 50
 enemy_speed= 150
-lives = 1
+lives = 3
 bullet_x= player_x + 25 - 2.5
 bullet_y= player_y - 10
 player_speed= 500
@@ -26,6 +26,22 @@ while running:
    for event in pygame.event.get():
     if event.type == pygame.QUIT:
         running = False
+    if event.type == pygame.KEYDOWN:
+     if event.key == pygame.K_r and game_over is True:
+        # Restart the game
+        game_over = False
+        player_x= 375
+        player_y= 500
+        enemy_x= 200
+        enemy_y= 50
+        enemy_speed= 150
+        lives = 3
+        bullet_x= player_x + 25 - 2.5
+        bullet_y= player_y - 10
+        score= 0
+        bullet_active= False #this line makes sure that the player can only shoot one bullet at a time
+        enemy_active = True
+        
    if not game_over:
     keys = pygame.key.get_pressed()
     if keys[pygame.K_RIGHT]: #we use if here instead of elif because we want to check both keys at the same time
@@ -51,8 +67,8 @@ while running:
    if enemy_active and not game_over:
       enemy_x += enemy_speed * dt # this line makes the enemy move
    if enemy_active and not game_over and (enemy_x > WIDTH - 40 or enemy_x < 0):
-      enemy_speed *= -1 
-      enemy_y += 20
+      enemy_speed *= -1 #this line makes the enemy change direction when it reaches the edge of the screen
+      enemy_y += 20 #this line makes the enemy move down 
    if not game_over and enemy_y >= HEIGHT - 30: #this line makes sure that the enemy doesn't go out of the screen
       enemy_y = 50
       enemy_x = 200
